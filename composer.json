@@ -1,0 +1,15 @@
+{
+    "name": "web-architect/b-user",
+    "description": "Manage users from terminal for your local 1C-Bitrix site copy.",
+    "require": {
+        "symfony/console": "^3.0",
+        "webignition/json-pretty-print": "^0.1.0"
+    },
+    "license": "Free",
+    "authors": [
+        {
+            "name": "Sergey Gripinskiy",
+            "email": "web-architect@mail.ru"
+        }
+    ]
+}
