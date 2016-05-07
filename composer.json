@@ -5,6 +5,9 @@
         "symfony/console": "^3.0",
         "webignition/json-pretty-print": "^0.1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.24"
+    },
     "license": "Free",
     "authors": [
         {
