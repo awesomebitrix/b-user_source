@@ -10,6 +10,11 @@ use webarch\buser\model\UserData;
 
 class UserHelper
 {
+    const LOW_ALPHA = "abcdefghijklmnopqrstuvwxyz";
+    const UP_ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const DIGITS = "0123456789";
+    const SYMBOLS = ",.<>/?;:'\"[]{}\\|`~!@#$%^&*()-_+=";
+
     /**
      * @var CUser
      */
@@ -26,18 +31,29 @@ class UserHelper
         $groupPolicy = $this->CUser->GetGroupPolicy($groups);
         $arChars = [];
         if ($groupPolicy["PASSWORD_LOWERCASE"] == "Y") {
-            $arChars[] = "abcdefghijklmnopqrstuvwxyz";
+            $arChars[] = self::LOW_ALPHA;
         }
         if ($groupPolicy["PASSWORD_UPPERCASE"] == "Y") {
-            $arChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $arChars[] = self::UP_ALPHA;
         }
         if ($groupPolicy["PASSWORD_DIGITS"] == "Y") {
-            $arChars[] = "0123456789";
+            $arChars[] = self::DIGITS;
         }
         if ($groupPolicy["PASSWORD_PUNCTUATION"] == "Y") {
-            $arChars[] = ",.<>/?;:'\"[]{}\\|`~!@#$%^&*()-_+=";
+            $arChars[] = self::SYMBOLS;
         }
-        return randString($groupPolicy["PASSWORD_LENGTH"], $arChars);
+
+        if (is_array($arChars) && count($arChars) <= 0) {
+            $arChars[] = self::LOW_ALPHA;
+            $arChars[] = self::DIGITS;
+        }
+
+        $length = (int)$groupPolicy["PASSWORD_LENGTH"];
+        if ($length < 6) {
+            $length = 8;
+        }
+
+        return randString($length, $arChars);
     }
 
     /**
@@ -56,23 +72,8 @@ class UserHelper
 
     public function addUser(UserData $user)
     {
-        $userFields = [
-            "LOGIN" => $user->getLogin(),
-            "EMAIL" => $user->getEmail(),
-            "PASSWORD" => $user->getPassword(),
-            "PASSWORD_CONFIRM" => $user->getPasswordConfirm(),
-            "GROUP_ID" => $user->getGroups()
-        ];
-        if (trim($user->getLastName()) != "") {
-            $userFields["LAST_NAME"] = $user->getLastName();
-        }
-        if (trim($user->getFirstName()) != "") {
-            $userFields["NAME"] = $user->getFirstName();
-        }
-        if (trim($user->getSecondName()) != "") {
-            $userFields["SECOND_NAME"] = $user->getSecondName();
-        }
-        $newUserId = $this->CUser->Add($userFields);
+        $this->checkNewUser($user);
+        $newUserId = $this->CUser->Add($user->toArray());
         if ($newUserId === false) {
             throw new RuntimeException(
                 "Error creating user account: \n" . App::getInstance()->getFormatHelper()->formatBxError($this->CUser->LAST_ERROR),
@@ -80,5 +81,18 @@ class UserHelper
             );
         }
         return (int)$newUserId;
+    }
+
+    private function checkNewUser(UserData $user)
+    {
+        if (trim($user->getEmail()) == "" && COption::GetOptionString("main", "new_user_email_required", "N") == "Y") {
+            throw new RuntimeException("Email is required", ErrorCode::USER_ADD_FAILURE);
+        }
+        if (!check_email($user->getEmail())) {
+            throw new RuntimeException("Wrong email: `" . (string)$user->getEmail() . "`", ErrorCode::USER_ADD_FAILURE);
+        }
+        if (trim($user->getLogin())) {
+            throw new RuntimeException("Login is required", ErrorCode::USER_ADD_FAILURE);
+        }
     }
 }

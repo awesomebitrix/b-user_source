@@ -32,7 +32,7 @@ class FormatHelper
 
     public function formatUserInfo(UserData $user)
     {
-        return $this->formatJson((array)$user);
+        return $this->formatJson($user->toArray());
     }
 
     public function formatJson($data)

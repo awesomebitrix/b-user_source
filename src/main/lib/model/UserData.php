@@ -4,6 +4,10 @@ namespace webarch\buser\model;
 
 class UserData
 {
+    /**
+     * @var bool
+     */
+    private $active;
     private $id;
     private $email;
     private $login;
@@ -17,7 +21,7 @@ class UserData
      */
     private $groups = [];
 
-    function __construct($email, $login, $password = null, $passwordConfirm = null)
+    function __construct($email = null, $login = null, $password = null, $passwordConfirm = null)
     {
         $this->setEmail($email);
         if (trim($login) != "") {
@@ -33,6 +37,40 @@ class UserData
         }
     }
 
+    public function toArray()
+    {
+        $fields = [];
+
+        if (!is_null($this->active)) {
+            $fields["ACTIVE"] = $this->isActive() ? "Y" : "N";
+        }
+        if (trim($this->getLogin()) != "") {
+            $fields["LOGIN"] = $this->getLogin();
+        }
+        if (trim($this->getEmail()) != "") {
+            $fields["EMAIL"] = $this->getEmail();
+        }
+        if (trim($this->getPassword()) != "") {
+            $fields["PASSWORD"] = $this->getPassword();
+        }
+        if (trim($this->getPasswordConfirm()) != "") {
+            $fields["PASSWORD_CONFIRM"] = $this->getPasswordConfirm();
+        }
+        if (is_array($this->getGroups()) != "") {
+            $fields["GROUP_ID"] = $this->getGroups();
+        }
+        if (trim($this->getLastName()) != "") {
+            $fields["LAST_NAME"] = $this->getLastName();
+        }
+        if (trim($this->getFirstName()) != "") {
+            $fields["NAME"] = $this->getFirstName();
+        }
+        if (trim($this->getSecondName()) != "") {
+            $fields["SECOND_NAME"] = $this->getSecondName();
+        }
+
+        return $fields;
+    }
 
     /**
      * @return mixed
@@ -177,5 +215,22 @@ class UserData
     {
         $this->id = $id;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = (bool)$active;
+    }
+
 
 }
