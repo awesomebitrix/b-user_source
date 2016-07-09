@@ -1,6 +1,6 @@
 <?php
 
-namespace webarch\buser\model;
+namespace WebArch\BUser\Model;
 
 class UserData
 {
@@ -23,17 +23,17 @@ class UserData
 
     function __construct($email = null, $login = null, $password = null, $passwordConfirm = null)
     {
-        $this->setEmail($email);
+        $this->withEmail($email);
         if (trim($login) != "") {
-            $this->setLogin($login);
+            $this->withLogin($login);
         } else {
-            $this->setLogin($email);
+            $this->withLogin($email);
         }
         if (!is_null($password) && trim($password) != "") {
-            $this->setPassword($password);
+            $this->withPassword($password);
         }
         if (!is_null($passwordConfirm) && trim($passwordConfirm) != "") {
-            $this->setPasswordConfirm($passwordConfirm);
+            $this->withPasswordConfirm($passwordConfirm);
         }
     }
 
@@ -82,10 +82,12 @@ class UserData
 
     /**
      * @param mixed $email
+     * @return UserData
      */
-    public function setEmail($email)
+    public function withEmail($email)
     {
         $this->email = trim($email);
+        return $this;
     }
 
     /**
@@ -98,10 +100,12 @@ class UserData
 
     /**
      * @param mixed $login
+     * @return UserData
      */
-    public function setLogin($login)
+    public function withLogin($login)
     {
         $this->login = trim($login);
+        return $this;
     }
 
     /**
@@ -114,10 +118,12 @@ class UserData
 
     /**
      * @param mixed $password
+     * @return UserData
      */
-    public function setPassword($password)
+    public function withPassword($password)
     {
         $this->password = trim($password);
+        return $this;
     }
 
     /**
@@ -130,10 +136,12 @@ class UserData
 
     /**
      * @param mixed $passwordConfirm
+     * @return UserData
      */
-    public function setPasswordConfirm($passwordConfirm)
+    public function withPasswordConfirm($passwordConfirm)
     {
         $this->passwordConfirm = trim($passwordConfirm);
+        return $this;
     }
 
     /**
@@ -146,10 +154,12 @@ class UserData
 
     /**
      * @param mixed $lastName
+     * @return UserData
      */
-    public function setLastName($lastName)
+    public function withLastName($lastName)
     {
         $this->lastName = trim($lastName);
+        return $this;
     }
 
     /**
@@ -162,10 +172,12 @@ class UserData
 
     /**
      * @param mixed $firstName
+     * @return UserData
      */
-    public function setFirstName($firstName)
+    public function withFirstName($firstName)
     {
         $this->firstName = trim($firstName);
+        return $this;
     }
 
     /**
@@ -178,10 +190,12 @@ class UserData
 
     /**
      * @param mixed $secondName
+     * @return UserData
      */
-    public function setSecondName($secondName)
+    public function withSecondName($secondName)
     {
         $this->secondName = trim($secondName);
+        return $this;
     }
 
     /**
@@ -194,10 +208,12 @@ class UserData
 
     /**
      * @param array $groups
+     * @return UserData
      */
-    public function setGroups($groups)
+    public function withGroups($groups)
     {
         $this->groups = $groups;
+        return $this;
     }
 
     /**
@@ -210,10 +226,12 @@ class UserData
 
     /**
      * @param mixed $id
+     * @return UserData
      */
-    public function setId($id)
+    public function withId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -226,10 +244,12 @@ class UserData
 
     /**
      * @param boolean $active
+     * @return UserData
      */
-    public function setActive($active)
+    public function withActive($active)
     {
         $this->active = (bool)$active;
+        return $this;
     }
 
 

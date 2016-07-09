@@ -6,8 +6,8 @@ use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Tester\ApplicationTester;
-use webarch\buser\app\App;
-use webarch\buser\command\AddCommand;
+use WebArch\BUser\App\App;
+use WebArch\BUser\Command\AddCommand;
 
 class UserAddTest extends PHPUnit_Framework_TestCase
 {
@@ -21,6 +21,7 @@ class UserAddTest extends PHPUnit_Framework_TestCase
         $buserApp = App::getInstance();
         $commandlineApp = new Application($buserApp->getName(), $buserApp->getVersion());
         $commandlineApp->add(new AddCommand());
+        $commandlineApp->setAutoExit(false);
 
         $this->tester = new ApplicationTester($commandlineApp);
     }
@@ -33,6 +34,7 @@ class UserAddTest extends PHPUnit_Framework_TestCase
 
     public function testUserAdd()
     {
+        putenv('SHELL_INTERACTIVE=1');
 
         $a = 3;
         try {
@@ -43,7 +45,7 @@ class UserAddTest extends PHPUnit_Framework_TestCase
                     "--email"         => "test@example.org",
                     "--pasgen"        => true,
                 ],
-                ['interactive' => false, 'decorated' => false, 'verbosity' => Output::VERBOSITY_VERBOSE]
+                ['interactive' => true, 'decorated' => false, 'verbosity' => Output::VERBOSITY_VERBOSE]
             );
         } catch (\Exception $e) {
 
@@ -52,5 +54,7 @@ class UserAddTest extends PHPUnit_Framework_TestCase
         $statusCode = $this->tester->getStatusCode();
         $output = $this->tester->getOutput();
         $a = 3;
+
+
     }
 }

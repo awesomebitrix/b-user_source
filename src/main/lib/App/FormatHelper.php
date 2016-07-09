@@ -1,15 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gripinskiy
- * Date: 06.05.16
- * Time: 22:02
- */
+namespace WebArch\BUser\App;
 
-namespace webarch\buser\app;
-
-
-use webarch\buser\model\UserData;
+use WebArch\BUser\Model\UserData;
 use webignition\JsonPrettyPrinter\JsonPrettyPrinter;
 
 class FormatHelper
@@ -39,6 +31,5 @@ class FormatHelper
     {
         return $this->jsonPrettyPrinter->format(json_encode($data, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE));
     }
-
 
 }

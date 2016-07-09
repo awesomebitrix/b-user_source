@@ -1,7 +1,6 @@
 <?php
 
-namespace webarch\buser;
-
+namespace WebArch\BUser\Enum;
 
 class ErrorCode
 {

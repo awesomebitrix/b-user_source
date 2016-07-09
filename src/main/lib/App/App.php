@@ -1,11 +1,11 @@
 <?php
 
-namespace webarch\buser\app;
+namespace WebArch\BUser\App;
 
 use RuntimeException;
 use Symfony\Component\Console\Application;
-use webarch\buser\command\AddCommand;
-use webarch\buser\ErrorCode;
+use WebArch\BUser\Command\AddCommand;
+use WebArch\BUser\Enum\ErrorCode;
 
 class App
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace webarch\buser\app;
+namespace WebArch\BUser\App;
 
 use COption;
 use CUser;
 use RuntimeException;
-use webarch\buser\ErrorCode;
-use webarch\buser\model\UserData;
+use WebArch\BUser\Enum\ErrorCode;
+use WebArch\BUser\Model\UserData;
 
 class UserHelper
 {
@@ -76,7 +76,10 @@ class UserHelper
         $newUserId = $this->CUser->Add($user->toArray());
         if ($newUserId === false) {
             throw new RuntimeException(
-                "Error creating user account: \n" . App::getInstance()->getFormatHelper()->formatBxError($this->CUser->LAST_ERROR),
+                sprintf(
+                    "Error creating user account: \n%s",
+                    App::getInstance()->getFormatHelper()->formatBxError($this->CUser->LAST_ERROR)
+                ),
                 ErrorCode::USER_ADD_FAILURE
             );
         }

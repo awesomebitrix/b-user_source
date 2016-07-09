@@ -6,14 +6,13 @@
  * Time: 21:49
  */
 
-namespace webarch\buser\command;
+namespace WebArch\BUser\Command;
 
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use webarch\buser\app\App;
+use WebArch\BUser\App\App;
 
 class CommandBase extends Command
 {

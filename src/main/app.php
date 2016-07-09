@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use webarch\buser\app\App;
+use WebArch\BUser\App\App;
 
 require __DIR__ . "/../../vendor/autoload.php";
 
