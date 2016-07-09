@@ -75,6 +75,11 @@ class AddCommand extends CommandBase
                 throw new RuntimeException("Wrong password confirmation", ErrorCode::PASSWORD_MISMATCH);
             }
 
+            if (trim($this->user->getLogin()) == "" && trim($this->user->getEmail()) != "") {
+                //Если не задан логин, используем e-mail
+                $this->user->withLogin($this->user->getEmail());
+            }
+
             $this->user->withId($this->app->getUserHelper()->addUser($this->user));
             //Если пароль был введён с клавиатуры, то не показывать его
             if (!$input->getOption("pasgen")) {

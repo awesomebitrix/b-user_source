@@ -35,6 +35,9 @@ class App
         //Singletone
     }
 
+    /**
+     * @return App
+     */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
@@ -43,11 +46,24 @@ class App
         return self::$instance;
     }
 
+    /**
+     * @return Application
+     */
+    public function getCommandlineApp()
+    {
+        if (is_null($this->commandlineApp)) {
+            $this->commandlineApp = new Application($this->getName(), $this->getVersion());
+            $this->commandlineApp->add(new AddCommand());
+        }
+        return $this->commandlineApp;
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function run()
     {
-        $this->commandlineApp = new Application($this->getName(), $this->getVersion());
-        $this->commandlineApp->add(new AddCommand());
-        $this->commandlineApp->run();
+        $this->getCommandlineApp()->run();
     }
 
     /**

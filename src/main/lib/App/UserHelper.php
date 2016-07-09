@@ -94,7 +94,7 @@ class UserHelper
         if (!check_email($user->getEmail())) {
             throw new RuntimeException("Wrong email: `" . (string)$user->getEmail() . "`", ErrorCode::USER_ADD_FAILURE);
         }
-        if (trim($user->getLogin())) {
+        if (trim($user->getLogin()) == "") {
             throw new RuntimeException("Login is required", ErrorCode::USER_ADD_FAILURE);
         }
     }
